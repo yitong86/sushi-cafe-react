@@ -12,9 +12,9 @@ const NavButton = (props) => {
         fontSize: '1.75em',
         color: hover ? "#FF8C00" : "#000000",
         fontWeight: 600,
-        textShadow: '1px 1px #2fbe9b',
+        textShadow: '1p5x 1px #2fbe9b',
         textAlign: 'center',
-        lineHeight: '5px',
+        lineHeight: 'px',
         whiteSpace: 'nowrap',
         margin: '0 10px',
         opacity: hover ? "60%" : "100%"

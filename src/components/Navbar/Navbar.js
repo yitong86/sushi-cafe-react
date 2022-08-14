@@ -1,8 +1,12 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext} from 'react';
 import NavButton from './NavButton';
 import { AuthContext } from '../Providers/AuthProvider';
+import Button from '../common/Button';
+import {carts} from '../Basket/Cart'
+import Logout from '../Auth/Logout'
 
 const Navbar = (props) => {
+  
   const [auth] = useContext(AuthContext);
 
   return (
@@ -14,7 +18,7 @@ const Navbar = (props) => {
         zIndex: 9999,
         top: 0,
         left: 0,
-        height: '70px',
+        height: '85px',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
@@ -22,7 +26,7 @@ const Navbar = (props) => {
         <h1 style={{
           fontFamily: "cursive",
           fontWeight: 'bold',
-          fontSize: '2.5em',
+          fontSize: '3.5em',
           margin: "0 35px",
           height:"40px"
      
@@ -41,14 +45,19 @@ const Navbar = (props) => {
           <NavButton to="/" label='Home' />
           <NavButton to="/menu" label='Menu' />
           <NavButton to="/contact" label='Contact us' />
+          <NavButton to="/reviews" label="Reviews" />
           {auth.id ? (
             <Fragment>
-              <NavButton to="/reviews" label="Reviews" />
-              <NavButton to="/users" label="Profile" />
+              
+              <NavButton to="/logout" label="Logout"></NavButton>
             </Fragment>
           ) : (
               <NavButton to="/login" label="Login" />
+              
           )}
+          
+
+
           
         </div>
       </div>
