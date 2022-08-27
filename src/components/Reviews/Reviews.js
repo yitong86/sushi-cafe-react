@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
+import Splash from '../common/Splash';
 
 const Reviews= () => {
     const[reviews,setReviews] = useState([]);
@@ -24,9 +25,10 @@ const Reviews= () => {
   return reviews.map((reviews, index) => {
     return (
       
+      
       <div >
-        
-      <h1>{reviews.title}</h1>
+  
+      <h2>{reviews.title}</h2>
    <div>{reviews.score}</div> 
       <div>{reviews.body} </div>
         

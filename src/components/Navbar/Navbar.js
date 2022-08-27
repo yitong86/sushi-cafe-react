@@ -2,8 +2,8 @@ import React, { Fragment, useContext} from 'react';
 import NavButton from './NavButton';
 import { AuthContext } from '../Providers/AuthProvider';
 import Button from '../common/Button';
-import {carts} from '../Basket/Cart'
 import Logout from '../Auth/Logout'
+
 
 const Navbar = (props) => {
   
@@ -14,14 +14,18 @@ const Navbar = (props) => {
       <div style={{
         backgroundColor: "#F8F8FF",
         position: 'fixed',
+        padding:"0",
+        margin:"0",
+        listStyleType:"none",
+        top:"0",
         width: '100%',
         zIndex: 9999,
-        top: 0,
         left: 0,
-        height: '85px',
+        height: '98px',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+       
       }}>
         <h1 style={{
           fontFamily: "cursive",
@@ -46,13 +50,19 @@ const Navbar = (props) => {
           <NavButton to="/menu" label='Menu' />
           <NavButton to="/contact" label='Contact us' />
           <NavButton to="/reviews" label="Reviews" />
+        
+          
+         
+         
           {auth.id ? (
             <Fragment>
               
               <NavButton to="/logout" label="Logout"></NavButton>
             </Fragment>
           ) : (
-              <NavButton to="/login" label="Login" />
+              
+            <NavButton to="/login" label="Login" />
+            
               
           )}
           

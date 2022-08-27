@@ -9,7 +9,7 @@ import ContactUs from "../ContactUs/ContactUs";
 import Category from "../Menu/MenuItems";
 import Reviews from "../Reviews/Reviews";
 import Logout from "../Auth/Logout";
-import CheckOut from "../Auth/CheckOut";
+import CheckOut from "../Auth/CheckoutForm";
 const AppRouter = () => {
  
 

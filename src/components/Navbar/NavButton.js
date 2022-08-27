@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { cssTransition } from 'react-toastify';
 const NavButton = (props) => {
   const [hover, setHover] = useState(false);
   return (
@@ -10,14 +11,15 @@ const NavButton = (props) => {
         background: '',
         textDecoration: 'none',
         fontSize: '1.75em',
-        color: hover ? "#FF8C00" : "#000000",
+        color: hover ? "orange" : "#000000",
         fontWeight: 600,
-        textShadow: '1p5x 1px #2fbe9b',
+        textShadow: '5p5x 1px #2fbe9b',
         textAlign: 'center',
         lineHeight: 'px',
         whiteSpace: 'nowrap',
         margin: '0 10px',
-        opacity: hover ? "60%" : "100%"
+        opacity: hover ? "60%" : "100%",
+        cssTransition:"opacity 0.15s,color 0.15s"
       }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

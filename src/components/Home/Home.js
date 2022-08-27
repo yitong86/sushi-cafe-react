@@ -6,7 +6,7 @@ import homesplash from '../../assets/homesplash.jpg'
 const Home = () => {
   return (
     <Container>
-      <Splash image={homesplash} style={{color: "#010101"}}>
+      <Splash image={homesplash} style={{color: "#010101",position:"fixed",width:"100%",height:"100%"}}>
         
       </Splash>
     </Container>

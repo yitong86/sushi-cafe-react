@@ -1,11 +1,12 @@
+import { hover } from '@testing-library/user-event/dist/hover';
 import React from 'react';
 
 
 
 function ContactUs() {
   return (
-    <div>
-        <h1>ContactUs</h1>
+    <div className='contact-us'>
+        <h1 className='contact' style={{textAlign:"center",textDecoration:"underline"}}>ContactUs</h1>
         <h3>Location</h3>
         <h2>214 Providence Pl #5620, Providence, RI 02903 </h2>
         <h3>Call us at (401)-632-1859</h3>
