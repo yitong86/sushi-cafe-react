@@ -25,16 +25,15 @@ const Reviews= () => {
   return reviews.map((reviews, index) => {
     return (
       
-      
       <div >
   
       <h2>{reviews.title}</h2>
    <div>{reviews.score}</div> 
       <div>{reviews.body} </div>
-        
+    
         </div>
        
-        
+       
        
     )
   

@@ -25,6 +25,8 @@ const Navbar = (props) => {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        zIndex:"1"
+       
        
       }}>
         <h1 style={{

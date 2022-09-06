@@ -7,6 +7,7 @@ import MenuItems from './MenuItems';
 import Basket from '../Basket/Basket';
 import StripeCheckout from 'react-stripe-checkout'
 import{toast} from 'react-toastify'
+import { Tooltip } from 'bootstrap';
 
 
 const PAGE_MENUITEMS = 'menuItems';
@@ -27,7 +28,9 @@ const Menu = () => {
  const navigate = useNavigate()
 
   const getTotalSum = () => {
+    
     return carts.reduce((sum,{ price,quantity }) => sum + price * quantity,0)
+   
   }
 
 
@@ -87,9 +90,10 @@ const getCartTotal = () => {
 };
 
 const setQuantity = (menuItems, amount) => {
+  console.log(menuItems)
   const newCart = [...carts];
   newCart.find(
-    (item) => item.name === menuItems.name).quantity = amount;
+    (item) => item.itemName === menuItems.itemName).quantity = amount;
     setCarts(newCart);
   
 }
@@ -165,7 +169,8 @@ const renderMenuItems = () => (
 )
 const renderCart = () => (
   <>
- <div>
+  {carts.length ? (
+ <div className="my-cart" style={{paddingBottom:"200px"}}>
   <h1>My Cart</h1>
   <button className="return-menu" onClick ={() => navigateTo(PAGE_MENUITEMS)}>Return Menu</button>
 
@@ -190,6 +195,7 @@ const renderCart = () => (
   
       ))}
       </div>
+     
       <div >Total:({getTotalSum()}) </div>
 
 
@@ -199,10 +205,12 @@ const renderCart = () => (
       amount={getTotalSum() *100}
       name={menuItems.itemName}
       billingAddress
-      shippingAddress
       />
       
       </div>
+       ):(
+        <p style={{fontSize:"30px"}}>Your cart is empty</p>
+      )}
     </>
     
     
@@ -210,7 +218,7 @@ const renderCart = () => (
 const displayMenuItems=()=>{
   return (
     
-    <div className='displayMenu-grid' style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",columnGap:"30px",rowGap:"20px",marginTop:"80px"}}>
+    <div className='displayMenu-grid' style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",columnGap:"30px",rowGap:"20px",paddingTop:"80px"}}>
       
       
       {page === PAGE_MENUITEMS && (renderMenuItems())}
@@ -233,29 +241,36 @@ const displayMenuItems=()=>{
     <div>
 <div className='select-option' >
  <h1 className="selectCategory" 
- style={{display:"block",fontFamily:"arial", fontSize:"25px",fontWeight:"bold",position:"fixed" }}>
+ style={{display:"block",fontFamily:"arial", fontSize:"25px",fontWeight:"bold",position:"fixed",left:"15px"}}>
   Select a Category
-  <select onChange={handleChange} style={{margin:"0.5em",position:"fixed",textAlign:"center"}} >
+  <select onChange={handleChange} style={{margin:"0.5em",position:"fixed",textAlign:"center",height:"25px"}} >
    {Array.from(category).map((cate) => (
-    
+   
   <option key={cate} value={cate}>
-  {cate}
+  {cate} 
   </option>
+  
+  
         ))}
   </select>
   </h1>
+  
   </div>
+
+
       <Button  onClick={() => navigateTo(PAGE_CART)}
           
-         style={{textalign: "right",width: "3rem",
-         display:"flex",lineheight:"60px",position:"fixed",right:"-5px",
-         top:"14.5%"
+         style={{textalign: "right",width: "2.5rem",
+         display:"flex",lineheight:"40px",position:"fixed",right:"0px",
+         top:"25px",border:"none",flexDirection:"column",
+         zIndex:"2"
         }}
       
         >
-
-      ({getCartTotal()})
-
+<div className="icon"style={{fontSize:"10px",backgroundColor:"red",color:"white",
+borderRadius:"30px",paddingTop:"2px",paddingLeft:"5px",paddingRight:"5px",
+paddingBottom:"2px",cursor:"pointer"}}>{getCartTotal()}</div>
+      
       <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 576 512"
@@ -264,10 +279,15 @@ const displayMenuItems=()=>{
            <path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z" />
       
           </svg>
+         
         </Button>
+        
+        
+
         <div>
         {displayMenuItems()}
         </div>
+
     </div>
   )
 };
