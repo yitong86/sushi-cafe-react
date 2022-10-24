@@ -26,11 +26,12 @@ const Reviews= () => {
     return (
       
       <div >
-  
-      <h2>{reviews.title}</h2>
-   <div>{reviews.score}</div> 
-      <div>{reviews.body} </div>
-    
+        <h1>Reviews</h1>
+  <ul>
+      <li>{reviews.title}</li>
+   <li>{reviews.score}</li> 
+      <li>{reviews.body} </li>
+      </ul>
         </div>
        
        

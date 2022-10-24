@@ -10,6 +10,7 @@ import Category from "../Menu/MenuItems";
 import Reviews from "../Reviews/Reviews";
 import Logout from "../Auth/Logout";
 import CheckOut from "../Auth/CheckoutForm";
+import Success from "../Menu/Success";
 const AppRouter = () => {
  
 
@@ -24,6 +25,7 @@ const AppRouter = () => {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/checkout" element={<CheckOut />} />
+        <Route path="/success" element={<Success />} />
         
       </Routes>
     </Container>

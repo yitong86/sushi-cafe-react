@@ -4,21 +4,24 @@ import Navbar from "../Navbar/Navbar";
 import Button from '../common/Button';
 import {useNavigate} from 'react-router-dom'
 import MenuItems from './MenuItems';
-import Basket from '../Basket/Basket';
+import Cart from '../Basket/Cart';
 import StripeCheckout from 'react-stripe-checkout'
-import{toast} from 'react-toastify'
-import { Tooltip } from 'bootstrap';
+import Basket from '../Basket/BasketIcon';
 
 
-const PAGE_MENUITEMS = 'menuItems';
+
+const PAGE_MENUITEMS = 'menu';
 const PAGE_CART = 'carts';
 const PAGE_CATEGORY = 'category';
-//toast.configure()
+
+
+
 
 const Menu = () => {
   const[menuItems,setMenuItems] = useState([]);
 
-  const [carts, setCarts] = React.useState([]);
+ const [carts, setCarts] = React.useState([]);
+
  const [category,setCategory]= React.useState(new Set());
 
  const[selectedCategory,setSelectedCategory]=useState("");
@@ -28,8 +31,12 @@ const Menu = () => {
  const navigate = useNavigate()
 
   const getTotalSum = () => {
-    
-    return carts.reduce((sum,{ price,quantity }) => sum + price * quantity,0)
+    const total=carts.reduce((sum,{ price,quantity }) => sum + price * quantity,0)
+    //fomat total
+   let dollarUSLocale = Intl.NumberFormat('en-US');
+   let totalPriceUs = dollarUSLocale.format(total)
+    //return total;
+   return totalPriceUs;
    
   }
 
@@ -58,7 +65,7 @@ useEffect(() => {
 
 const addToCart = (menuItems) => {
   let newCart =[...carts]
- let itemInCart = newCart.find(
+  let itemInCart = newCart.find(
   (item) => menuItems.itemName === item.itemName
  );
 
@@ -106,13 +113,13 @@ const navigateTo = (nextPage) => {
 const handleChange = event => {
  
 console.log(event.target.value);
-setSelectedCategory(event.target.value)
- 
+setSelectedCategory(event.target.value);
+
 };
 
 const getMenusInCategory = () => {
-  if(selectedCategory === ""){
-    return menuItems
+  if(selectedCategory === "" || selectedCategory === "all"){
+    return menuItems;
   }
   return menuItems.filter(
     (menuItems) => menuItems.category === selectedCategory
@@ -120,19 +127,11 @@ const getMenusInCategory = () => {
 }
 
 
-async function handleToken(token, addresses) {
-  console.log({token,addresses})
-  const response = await axios.post(
-    "http://localhost:8080/checkout",
-    { token, menuItems}
-  );
-  const { status } = response.data;
-  if(status === 'success'){
-    toast("Success Pyament is completed",{type:'success'})
-
-  }else{
-    toast("Failure payment is not completed",{type:"failure"})
-  }
+async function handleToken(token) {
+  
+  console.log({token})
+  alert("Payment Successful")
+ 
 
  
 }
@@ -143,10 +142,10 @@ const renderMenuItems = () => (
 
   {getMenusInCategory().map((menuItems, index) => (
 
-<div className ="display-menu" >
+<div key = {menuItems.id} className ="display-menu" >
  <div>
 <img className="image" src={menuItems.image} style={{borderRadius:"30px",display:"grid",marginRight:"30px",
-  width:"100%",height:"200px"}}  />
+  width:"100%",height:"200px",marginTop:"30px"}}  />
  </div>
  <div >  
     <h2 style={{display:"block",marginRight:"20px"}}>{menuItems.itemName}</h2>
@@ -158,6 +157,7 @@ const renderMenuItems = () => (
     <button  className = "addToCart-button" style={{cursor:"pointer",marginBottom:"30px"}}onClick={() => addToCart(menuItems)}>
       Add To Cart
     </button>
+  
     </div>
     </div>
   
@@ -167,16 +167,24 @@ const renderMenuItems = () => (
     </>
   
 )
+
+
+
 const renderCart = () => (
   <>
   {carts.length ? (
- <div className="my-cart" style={{paddingBottom:"200px"}}>
+ <div key = {menuItems.id} className="my-cart" style={{paddingBottom:"200px"}}>
   <h1>My Cart</h1>
-  <button className="return-menu" onClick ={() => navigateTo(PAGE_MENUITEMS)}>Return Menu</button>
+  <button className="return-menu" onClick ={() => {
+    document.getElementById("sel").value= ""
+   setSelectedCategory("");
+   
+    navigateTo(PAGE_MENUITEMS)}
+    }>Return Menu</button>
 
   <div className = "menuItem" >  
     {carts.map((menuItems, index) => (
-  <div>
+  <div key = {menuItems.id}>
        <img src={menuItems.image} width={300} height={200}   />
       <h2>{menuItems.itemName}</h2>
       <h3>{"$" + menuItems.price}</h3>  
@@ -203,18 +211,27 @@ const renderCart = () => (
       stripeKey="pk_test_51LXad4FPWDZsVwKEyuk81AVQjOncjV1HGkZH2k5zH2alRHGGNCKWhZW954hNs3nD0pEiHte15nR5JKQSth0ipoev00z8oTiwHP"
       token={handleToken}
       amount={getTotalSum() *100}
-      name={menuItems.itemName}
+      itemName={menuItems.itemName}
       billingAddress
+    // triggerEvent={() =>navigate("/")}
       />
-      
+
       </div>
        ):(
+        <div>
         <p style={{fontSize:"30px"}}>Your cart is empty</p>
+        <button className="return-menu" onClick ={() => navigateTo(PAGE_CART)}>Return Menu</button>
+        </div>
       )}
     </>
     
     
 )
+
+  
+     
+    
+
 const displayMenuItems=()=>{
   return (
     
@@ -226,7 +243,6 @@ const displayMenuItems=()=>{
       {page === PAGE_CART && (renderCart())}
 
 
-      
       </div>
      
       
@@ -237,23 +253,30 @@ const displayMenuItems=()=>{
 //})
 }
   return (
-
+//select category
     <div>
+  
 <div className='select-option' >
  <h1 className="selectCategory" 
  style={{display:"block",fontFamily:"arial", fontSize:"25px",fontWeight:"bold",position:"fixed",left:"15px"}}>
   Select a Category
-  <select onChange={handleChange} style={{margin:"0.5em",position:"fixed",textAlign:"center",height:"25px"}} >
+  <select id =  "sel" onChange={handleChange} style={{margin:"0.5em",position:"fixed",textAlign:"center",height:"25px"}} >
+
+  <option value="" selected>All</option>
    {Array.from(category).map((cate) => (
-   
-  <option key={cate} value={cate}>
-  {cate} 
-  </option>
+ 
+ 
+  <option key={cate} value={cate} > {cate}  </option>
+ 
   
-  
+ 
         ))}
+
   </select>
+  
   </h1>
+  
+  
   
   </div>
 
@@ -267,11 +290,13 @@ const displayMenuItems=()=>{
         }}
       
         >
+
 <div className="icon"style={{fontSize:"10px",backgroundColor:"red",color:"white",
 borderRadius:"30px",paddingTop:"2px",paddingLeft:"5px",paddingRight:"5px",
 paddingBottom:"2px",cursor:"pointer"}}>{getCartTotal()}</div>
-      
-      <svg
+
+      <Basket />
+      {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 576 512"
             fill="currentColor"
@@ -279,13 +304,18 @@ paddingBottom:"2px",cursor:"pointer"}}>{getCartTotal()}</div>
            <path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z" />
       
           </svg>
-         
+          */}
         </Button>
         
         
 
         <div>
         {displayMenuItems()}
+        
+      <footer>
+        <small>@2022 sophia development.All rights reserved.</small>
+
+        </footer>
         </div>
 
     </div>

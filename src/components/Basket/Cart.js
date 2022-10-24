@@ -1,33 +1,54 @@
-// import React,{useState} from 'react'
+// import React, {useState, useEffect} from 'react';
+// import StripeCheckout from 'react-stripe-checkout'
 
-// export default function  Cart({carts,removeFromCart}) {
-//   const PAGE_MENUITEMS = 'menuItems';
-//   const[page,setPage]= useState(PAGE_MENUITEMS)
-//   const navigateTo = (nextPage) => {
-//     setPage(nextPage);
-//   }
-  
-//   return (
-//     <div>
-//        <>
-//   <h1>My Cart</h1>
-//   <button onClick ={() => navigateTo(PAGE_MENUITEMS)}>View Menu</button>
-//   <div className = "item" >
-//     {carts.map((menuItems, index) => (
-    
-//   <div>
-//        <img src={menuItems.image} width={600} height={300}   />
-//       <h2>{menuItems.itemName}</h2>
-//       <h3>{"$" + menuItems.price}</h3>  
 
-//     <button onClick ={() => removeFromCart(menuItems)}>Remove</button>
-//       </div>
-    
+// export default function renderCart (props)  {
+//   return
+//    (
+//   //  {props.length ? (
+//    <div key = {props.menuItems.id} className="my-cart" style={{paddingBottom:"200px"}}>
+//     <h1>My Cart</h1>
+//     <button className="return-menu" onClick ={() =>props.navigateTo(props.PAGE_MENUITEMS)}>Return Menu</button>
   
-//       ))}
-//       </div>
-//       <button >Check out</button>
-//     </>
-//     </div>
-//   )
-// }
+//     <div className = "menuItem" >  
+//       {props.carts.map((menuItems, index) => (
+//     <div key = {props.menuItems.id}>
+//          <img src={props.menuItems.image} width={300} height={200}   />
+//         <h2>{props.menuItems.itemName}</h2>
+//         <h3>{"$" + props.menuItems.price}</h3>  
+  
+//         <input 
+//         value ={props.menuItems.quantity}
+//         onChange={(e)=>
+//             props.setQuantity(
+//             props.menuItems,
+//             parseInt(e.target.value))}
+//           />
+          
+  
+//       <button onClick ={() => props.removeFromCart(props.menuItems)}>Remove</button>
+//         </div>
+    
+//         ))}
+//         </div>
+       
+//         <div >Total:({props.getTotalSum()}) </div>
+  
+            
+//         <StripeCheckout 
+//         stripeKey="pk_test_51LXad4FPWDZsVwKEyuk81AVQjOncjV1HGkZH2k5zH2alRHGGNCKWhZW954hNs3nD0pEiHte15nR5JKQSth0ipoev00z8oTiwHP"
+//         token={props.handleToken}
+//         amount={props.getTotalSum() *100}
+//         itemName={props.menuItems.itemName}
+//         billingAddress
+//         />
+        
+//         </div>
+//       //   ):(
+//        //   <p style={{fontSize:"30px"}}>Your cart is empty</p>
+//       //  )
+   
+      
+//    )
+//          }
+        
